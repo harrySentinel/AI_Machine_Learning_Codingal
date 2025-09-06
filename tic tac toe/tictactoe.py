@@ -58,10 +58,25 @@ def ai_move(board, ai_symbol, player_symbol):
                 board[i] = ai_symbol
                 return
     
-    # Random move if no winning or blocking move
-    possible_moves = [i for i in range(9) if board[i].isdigit()]
-    move = random.choice(possible_moves)
-    board[move] = ai_symbol
+    # Make a strategic move (center, corners, then edges)
+    # 1. Try center if available
+    if board[4].isdigit():
+        board[4] = ai_symbol
+        return
+    
+    # 2. Try corners if available
+    corners = [0, 2, 6, 8]
+    available_corners = [i for i in corners if board[i].isdigit()]
+    if available_corners:
+        board[random.choice(available_corners)] = ai_symbol
+        return
+    
+    # 3. Try edges if available
+    edges = [1, 3, 5, 7]
+    available_edges = [i for i in edges if board[i].isdigit()]
+    if available_edges:
+        board[random.choice(available_edges)] = ai_symbol
+        return
 
 def check_win(board, symbol):
     # Check rows
